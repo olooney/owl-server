@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# must be root or use sudo
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root"
+    exit 1
+fi
+
+rm -rf /var/www/release.oranlooney.com/ && \
+    cp -R /var/www/staging.oranlooney.com/ /var/www/release.oranlooney.com/ && \
+    mkdir -p /var/www/www.oranlooney.com/ && \
+    rm -rf /tmp/www.oranlooney.com/ && \
+    mv /var/www/www.oranlooney.com/ /tmp/www.oranlooney.com/ && \
+    mv /var/www/release.oranlooney.com/ /var/www/www.oranlooney.com && \
+    rm -f /etc/nginx/sites-enabled/staging.oranlooney.com && \
+    ln -f /etc/nginx/sites-available/staging_redirect /etc/nginx/sites-enabled/staging_redirect && \
+    service nginx reload

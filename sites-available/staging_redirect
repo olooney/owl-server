@@ -1,0 +1,10 @@
+
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name staging.oranlooney.com;
+    expires epoch;
+    return 302 $scheme://www.oranlooney.com$request_uri;
+
+}

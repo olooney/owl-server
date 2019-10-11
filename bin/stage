@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# must be root or use sudo
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root" 
+    exit 1
+fi
+
+rm -f master.zip* && \
+    wget https://github.com/olooney/oranlooney.com/archive/master.zip && \
+    rm -rf /var/www/oranlooney.com-master/ && \
+    rm -rf /tmp/staging.oranlooney.com/ && \
+    unzip -q master.zip -d /var/www && \
+    mv /var/www/staging.oranlooney.com/ /tmp/ && \
+    mv /var/www/oranlooney.com-master /var/www/staging.oranlooney.com && \
+    rm -f /etc/nginx/sites-enabled/staging_redirect && \
+    ln -f -s /etc/nginx/sites-available/staging.oranlooney.com /etc/nginx/sites-enabled/staging.oranlooney.com && \
+    service nginx reload && \
+    echo "staging successful"

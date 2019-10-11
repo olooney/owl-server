@@ -1,0 +1,2 @@
+rm -rf /var/www/staging.oranlooney.com/
+mv /tmp/staging.oranlooney.com /var/www/
